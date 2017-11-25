@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>My Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="external/bootstrap.min.css">
+  <script src="http://localhost:3000/external/jquery.min.js"></script>
+  <script src="http://localhost:3000/external/bootstrap.min.js"></script>
+  <script src="http://localhost:3000/external/angular.min.js"></script>
+  <script>
+    //Put your scripts here
+    var myApp = angular.module('myApp', [])
+   
+  myApp.controller('SimpleController', ['$scope', '$http', function($scope, $http) {
+       $http.get('http://localhost:3000/viewProfile/data').then(
+        function(response) {
+          //First function handles success
+          $scope.tasks = response.data
+          console.log($scope.tasks)
+        },
+        function(response) {
+          //Second function handles error
+          alert('Sorry, Could not find data!')
+        }
+
+      )
+    }])
+
+
+  </script>
+  <style>
+      #homecontainer{
+         background-color: #27AE60;
+         color: #fff;
+         width: 100%;
+         height: 120px;
+         padding: 10px 20px;
+      }
+      #image-profile2{
+        left: 80px;
+
+      }
+      #image-profile{
+        top: 20px;
+        left: 30px;
+        height: 160px;
+      }
+     hr { 
+
+        display: block;
+        width: 60%;
+        border-style: inset;
+        border-width: 1px;
+    }
+    #content{
+      left: 100px;
+    }
+    </style>
+</head>
+<body  ng-app="myApp" ng-controller="SimpleController">
+    <div id = "homecontainer" class="container">
+    <a href = "http://localhost:3000/home"><img src="http://localhost:3000/images/LAL.png" alt="LAL Farmland" 
+        align = "left" width="90" height="90"><br></a>
+      <h3>&nbspView Profile</h3>
+    </div><br>
+    <div>
+      <div id = "image-profile" class ="col-xs-2" ></div>
+      <div id = "image-profile" class ="col-xs-2">
+        <img src="http://localhost:3000/images/user.png" alt="LAL Farmland" align = "left" width="200" height="200">  
+      </div><br><br><br>
+      <div id = "image-profile" class ="col-xs-8"  ng-repeat = "x in tasks">
+       <h2>{{x.username}}</h2>
+       <h4 align>{{x.classification}}</h4>
+      </div>
+    </div>
+    <div class ="col-xs-12" ><hr></div>
+    <div id = "row">
+      <div id = "image-profile2" class ="col-xs-2" ></div>
+      <div id = "image-profile2" class ="col-xs-2">
+        <h3>Name:</h3>
+      </div>
+      <div class ="col-xs-8"  ng-repeat = "x in tasks">
+       <h3>{{x.firstname + " " + x.lastname}}</h3>
+      </div>
+      <br>
+      
+      <div id = "image-profile2" class ="col-xs-2" ></div>
+      <div id = "image-profile2" class ="col-xs-2">
+        <h3>Contact no.:</h3>
+      </div>
+      <div class ="col-xs-8"  ng-repeat = "x in tasks">
+       <h3>{{x.contactno}}</h3>
+      </div>
+      <br>
+      
+      <div class ="col-xs-12" ></div>
+
+      <div id = "image-profile2" class ="col-xs-2" ></div>
+      <div id = "image-profile2" class ="col-xs-2">
+        <h3>E-mail:</h3>
+      </div>
+      <div class ="col-xs-8"  ng-repeat = "x in tasks">
+       <h3>{{x.email}}</h3>
+      </div>
+      <br>
+
+       <div id = "image-profile2" class ="col-xs-2" ></div>
+      <div id = "image-profile2" class ="col-xs-2">
+        <h3>Birthday:</h3>
+      </div>
+      <div class ="col-xs-8"  ng-repeat = "x in tasks">
+       <h3>{{x.birthday|date}}</h3>
+      </div>
+      <br>
+
+      <div class ="col-xs-12" ></div>
+
+       <div id = "image-profile2" class ="col-xs-2" ></div>
+      <div id = "image-profile2" class ="col-xs-2">
+        <h3>Address:</h3>
+      </div>
+      <div class ="col-xs-8"  ng-repeat = "x in tasks">
+       <h3>{{x.address}}</h3>
+      </div>
+      <br>
+
+
+    </div>
+
+
+
+
+</body>
+</html>

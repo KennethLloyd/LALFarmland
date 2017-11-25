@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" href="http://localhost:3000/images/LAL.png">
+  <title>LAL Farmland - Sign up</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="external/bootstrap.min.css">
+  <script src="http://localhost:3000/external/jquery.min.js"></script>
+  <script src="http://localhost:3000/external/bootstrap.min.js"></script>
+  <script>
+     function goToHome() {
+        window.location.href = 'http://localhost:3000/home';
+      }
+      
+      
+      $('document').ready(function() {
+            $('#buttonSign').bind('click',function () {
+                var user = {
+                  username: $('#username').val(),
+                  lastname: $('#lname').val(),
+                  password: $('#pword').val(),
+                  firstname: $('#fname').val(),
+                  middleinit: $('#minit').val(),
+                  birthday: $('#yr').val() + '-' + $('#month').val() + '-' + $('#day').val(),
+                  email: $('#email').val(),
+                  contactno: $('#contactno').val(),
+                  address: $('#address').val(),
+                  classification: $('#combo').val()
+                };
+
+                jsonString = JSON.stringify(user, null, 2);
+                $.ajax({
+                  type: "GET",
+                  url: "http://localhost:3000/submit/" + jsonString,
+                  success: function(data) {
+                    if (data == 'Error') {
+                      alert('Error. Username already exists. Please try again.');
+                    }
+                    else {
+                      alert(data);
+                      goToHome();
+                    }
+                  },
+                  error: function(err) {
+                    alert(err);
+                  }
+                })
+            })
+      })
+    </script>
+    <style>
+  .jumbotron {
+      padding: 80px 120px 30px ;
+      background-color: #27AE60;
+      color: #fff;
+  }
+  .container {
+      padding: 0px 50px 50px ;
+  }
+  </style>
+</head>
+<body>
+<div class="jumbotron clearfix">
+    <img src="http://localhost:3000/images/LAL.png"  alt="LAL Farmland" class = "pull-left" width="250" height="250">
+     <br><br><br><p><h1>&nbsp&nbspSign Up</h1></p>
+</div>
+<div class ="container">
+   <br> 
+  <form class="form-inline">
+   <div class="form-group">
+      <label for="username" >Username:</label>
+      <input type="text" class="form-control" id="username" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+      <label for="username" >Password:</label>
+      <input type="password" class="form-control" id="pword" placeholder="Enter password">
+    </div>
+    <div class="form-group"><br>
+       <label> Sign Up As: </label>
+      <select id="combo" class="combobox" name="dept" style="width:200px;">
+        <option>Admin</option>
+        <option>Client</option>
+      </select>
+      <label for="email" >Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email">
+    </div>
+  </form>
+  <br>
+  <form class="form-inline">
+  <div class="form-group">
+	  <label for="lname">Last name: </label>
+	  <input class="form-control" id="lname" type="text" placeholder="Enter last name">
+  </div>
+  <div class="form-group">
+	  <label for="fname">First name: </label>
+	  <input class="form-control" id="fname" type="text" placeholder="Enter first name">
+  </div>
+   <div class="form-group">
+	  <label for="minit">Middle initial: </label>
+	  <input class="form-control" id="minit" type="text" placeholder="Enter middle initial">
+  </div>
+  <br><br>
+   <form class="form-inline">
+   <div class="form-group">
+   	  <label> Birthday:&nbsp &nbsp </label>
+      <input type="text" class="form-control" id="yr" placeholder="yyyy">
+      <input type="text" class="form-control" id="month" placeholder="mm">
+      <input type="text" class="form-control" id="day" placeholder="dd">
+    </div>
+  </form>
+  <br>
+   <form class="form-horizontal">
+   <div class="form-group">
+    <label class="control-label col-sm-1" for="contactno">Contact number:</label>
+    <div class="col-sm-5">
+      <input type="email" class="form-control" id="contactno" placeholder="Enter contact number">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-1" for="address">Address:</label>
+    <div class="col-sm-6">
+      <input type="email" class="form-control" id="address" placeholder="Enter address">
+    </div>
+  </div><br><br>
+  <div class="col-sm-offset-6 col-sm-6">
+      <input type="button" class="btn btn-success" id="buttonSign" value="Submit"/>
+  </div>
+  </form>
+</div> 	
+  <p id="output"></p>
+
+
+</body>
+</html>
+

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<link rel="shortcut icon" href="http://localhost:3000/images/LAL.png">
+		<title>Home</title>
+		<meta charset="utf-8">
+		<meta name="viewport" contelnt="width=device-width, initial-scale=1">
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="http://localhost:3000/external/jquery.min.js"></script>
+	    <script src="http://localhost:3000/external/bootstrap.min.js"></script>
+	    <script src="http://localhost:3000/external/angular.min.js"></script>
+
+		 <script>
+			//Put your scripts here
+			var myApp = angular.module('myApp', [])
+
+			myApp.controller('SimpleController', ['$scope', '$http', function($scope, $http) {
+				
+			   $scope.logout = function () {
+			   	// body..
+				   	$http.get('http://localhost:3000/logout/').then(
+					    function(response) {
+					      //First function handles success
+							var count = response.data
+							console.log(count)
+							if(count == 1){
+								alert('Thank You!')
+								window.location.href = 'http://localhost:3000/';
+							}
+							else $scope.please('#')
+					    },
+					    function(response) {
+					      //Second function handles error
+					      alert('Sorry, Could not find data!')
+					    }
+
+					)
+					$scope.signed_in()
+			   }
+			   $scope.please = function (src) {
+			   	// body..
+			   		if(src=='#') alert("Please log-in")
+			   }
+			   $scope.signed_in = function () {
+			   	// body..
+				   	$http.get('http://localhost:3000/viewProfile/data').then(
+					    function(response) {
+					      //First function handles success
+							var sign = response.data
+							if(sign.length == 1){
+								$scope.url = 'http://localhost:3000/viewProfile'
+							}
+							else {
+								$scope.url = '#'
+							}
+					    },
+					    function(response) {
+					      //Second function handles error
+					      alert('Sorry, Could not find data!')
+					    }
+
+					)
+			   }
+			}])
+
+
+		</script>
+		<style>
+			#homecontainer{
+				 background-color: #27AE60;
+				 color: #fff;
+				 width: 100%;
+				 height: 120px;
+				 padding: 5px 20px;
+			}
+			#menu1{
+				color: black;
+			}
+			
+		</style>
+		
+	</head>
+	<body ng-app="myApp" ng-controller="SimpleController" ng-init=signed_in()>
+
+		<div class="container" id = "homecontainer">
+		<img src="http://localhost:3000/images/LAL.png" alt="LAL Farmland" 
+		align = "left" width="100" height="100"><br>
+			<h2 class = "pull-left">&nbspHOME</h2>
+			<div class="dropdown pull-right">
+				    <nav class="btn btn-lg glyphicon glyphicon-user dropdown-toggle" type="button" id="prof" data-toggle="dropdown"> </nav>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu0">
+				      <li role="presentation" ><a href={{url}} ng-click=please(url)>My Profile</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation" ><a href=# ng-click=logout()>Logout</a></li>
+				      
+				    </ul>
+			  	</div>
+		</div><br>
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu0" data-toggle="dropdown"> SEARCH
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu0">
+				      <li role="presentation"><a href="http://localhost:3000/search">Search Farmer</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/searchPlant">Search Plant</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/searchPlot">Search Plot</a></li>
+				    </ul>
+			  	</div>
+			</div><br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY PLOT
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+				      <li role="presentation"><a href="http://localhost:3000/addPlot">Add Plot</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/editPlot">Edit Plot</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deletePlot">Delete Plot</a></li>
+				    </ul>
+			  	</div>
+			</div><br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY PLANT
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+				      <li role="presentation"><a href="http://localhost:3000/addPlant">Add Plant</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/editPlant">Edit Plant</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deletePlant">Delete Plant</a></li>
+				    </ul>
+				</div>
+			</div> <br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY FARM PERSONNEL
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu3">
+				      <li role="presentation"><a href="http://localhost:3000/addFarmer">Add Farmer</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/editFarmer">Edit Farmer</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deleteFarmer">Delete Farmer</a></li>
+				    </ul>
+				</div>
+
+			</div> <br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY PLANTING ACTIVITIES
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu4">
+				      <li role="presentation"><a href = "http://localhost:3000/editPlantingActivity">Edit Planting Activity</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deletePlantingActivity">Delete Planting Activity</a></li>
+				</div>
+			</div> <br>
+			<div class="container">
+			<a href = "http://localhost:3000/plantingRequest"><button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1"> SEND PLANTING REQUEST</button></a>
+			</div>
+			<br><br><br><br>
+			<div class="btn-group btn-group-justified btn-group-lg">
+				<a href="http://localhost:3000/viewActivities" onclick="" class="btn btn-success">View all planting activities</a>
+				<a href="http://localhost:3000/viewRequests" onclick="" class="btn btn-danger">View all planting requests</a>
+			
+			</div>
+		</div>
+			
+			
+	</body>
+</html>

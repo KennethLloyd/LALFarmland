@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="shortcut icon" href="http://localhost:3000/images/LAL.png">
+		<title>Edit Plant</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="external/bootstrap.min.css">
+		<script src="http://localhost:3000/external/jquery.min.js"></script>
+		<script src="http://localhost:3000/external/bootstrap.min.js"></script>
+		<script src="http://localhost:3000/external/angular.min.js"></script>
+		<script>
+			function goToHome() {
+       			window.location.href = 'http://localhost:3000/home';
+      		}	
+			$('document').ready(function(){
+				$('#buttonSign').bind('click',function () {
+			      	var plant = {
+			      		plantname: $('#name').val(),
+			      		attribute: $('#combo').val(),
+			      		attributeVal: $('#newVal').val()
+			      	};
+			      	jsonString = JSON.stringify(plant, null, 2);
+			      	$.ajax({
+	                  type: "GET",
+	                  url: "http://localhost:3000/editPlant/" + jsonString,
+	                  success: function(data) {
+	                    if (data == 'Error') {
+	                      alert('An error has occured.');
+	                    }
+	                    else {
+	                      alert(data);
+	                      goToHome();
+	                    }
+	                  },
+	                  error: function(err) {
+	                    alert(err);
+	                  }
+	                })
+			     })
+
+			})
+			var myApp = angular.module('myApp', [])
+   
+			  myApp.controller('SimpleController', ['$scope', '$http', function($scope, $http) {
+			       $http.get('http://localhost:3000/plant/search-by-name').then(
+			        function(response) {
+			          //First function handles success
+			          $scope.plants = response.data
+			          $scope.search = function(str){
+			          	$http.get('http://localhost:3000/plant/search-by-name/'+str).then(
+			          		function(response){
+			          			$scope.plants = response.data
+			          		}
+			          	)
+			          }
+			        },
+			        function(response) {
+			          //Second function handles error
+			          alert('Sorry, Could not find data!')
+			        }
+
+			      )
+			    }])
+		</script>
+		<style>
+			#homecontainer{
+				 background-color: #27AE60;
+				 color: #fff;
+				 width: 100%;
+				 			 height: 120px;
+         		 padding: 10px 20px;
+			}.border {
+			    border-left: 3px solid #ddd;
+			} 
+		</style>
+	</head>
+	<body>
+		<div class="container" id = "homecontainer">
+			<a href = "http://localhost:3000/home"><img src="http://localhost:3000/images/LAL.png" alt="LAL Farmland" 
+        align = "left" width="90" height="90"><br></a>
+			<h3>&nbspEdit Plant</h3>
+		</div><br>
+		<form class = "form-horizontal col-xs-3">
+			<label> Enter plant name: <input type="text" name="name" id="name"></label><br>
+			<label> Select the attribute you want to edit: </label><br>
+			<select id="combo" class="combobox" name="dept" style="width:200px;">
+				<option>Plant Name</option>
+				<option>Quantity</option>
+				<option>Date Added</option>
+			</select>
+			<label> New value: <input type="text" name="newVal" id="newVal"></label>
+			<br>
+			<button id="buttonSign" name="submit" href="#" type="button"  class="btn btn-default">Submit</button>
+		</form>
+		<div ng-app="myApp" ng-controller="SimpleController" class="col-xs-9 border">
+	      <label>&nbspEnter plant name: </label>
+				<input type="text" ng-model="filterKey" ng-init="filterKey=' '"> <button ng-click="search(filterKey)">Search</button><br><br>
+	      <table class="table">
+	      <thead>
+	        <tr>
+	          <th>Plant number</th>
+	          <th>Name</th>
+	          <th>Quantity</th>
+	          <th>Date Added</th>
+	        </tr>
+	      </thead>
+	      <tbody ng-repeat = "x in plants">
+	        <tr>
+	          <td>{{x.plantnumber}}</td>
+	          <td>{{x.plantname}}</td>
+	          <td>{{x.quantity }}</td>
+	          <td>{{x.date_added | date}} </td>
+	        </tr>
+		</div>
+	</body>
+</html>

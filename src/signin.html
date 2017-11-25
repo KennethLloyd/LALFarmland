@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="shortcut icon" href="http://localhost:3000/images/LAL.png">
+  <title>Sign In</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="external/bootstrap.min.css">
+  <link href="http://localhost:3000/external/montserrat.css" rel="stylesheet">
+  <script src="http://localhost:3000/external/jquery.min.js"></script>
+  <script src="http://localhost:3000/external/bootstrap.min.js"></script>
+  <script>
+     function goToHome() {
+        window.location.href = 'http://localhost:3000/home';
+      }
+      $('document').ready(function() {
+            $('#signInButton').bind('click',function () {
+                var user = {
+                  username: $('#inputusername').val(),
+                  password: $('#inputPassword').val(),
+                  classification: $('#combo').val()
+                };
+
+                jsonString = JSON.stringify(user, null, 2);
+                $.ajax({
+                  type: "GET",
+                  url: "http://localhost:3000/signIn/" + jsonString,
+                  success: function(data) {
+                    if (data == 'Error') {
+                      alert('User not found. Please try again.');
+                      window.location.href = 'http://localhost:3000/';
+                    }
+                    else {
+                      alert(data);
+                      goToHome();
+                    }
+                  },
+                  error: function(err) {
+                    alert(err);
+                  }
+                })
+            })
+      })
+    </script>
+  <style>
+  body {
+      font: 20px;
+      line-height: 1.8;
+      color: #f5f6f7;
+  }
+  #combo {
+    color: black;
+  }
+  #ars{
+    color: gray;
+    font-size: 12px;
+  }
+
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+      background-color: #27AE60; /* Green */
+      color: #ffffff;
+      height: 750px;
+  }
+  .bg-4 { 
+      background-color: #2f2f2f; /* Black Gray */
+      color: #fff;
+      height: 70px;
+
+  }
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+  .navbar {
+      padding-top: 10px;
+      padding-bottom: 0px;
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+      font-size: 12px;
+      letter-spacing: 5px;
+      background-color: #27AE60;
+  }
+  .navbar-nav  li a:hover {
+      color: #1abc9c !important;
+  }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>                       
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://localhost:3000/signUp"><button class="btn btn-default" id="signUpButton">Sign up</button></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid bg-1 text-center">
+  <img src="http://localhost:3000/images/LAL.png" style="display:inline" alt="LAL Farmland" width="350" height="350">
+  <form class="form-signin">
+        <label> Sign In As: </label>
+        <select id="combo" class="combobox" name="dept" style="width:200px;">
+          <option>Admin</option>
+          <option>Client</option>
+        </select>
+        <label for="inputusername" class="sr-only">Username</label>
+        <input type="username" id="inputusername" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+        </div>
+        <button id="signInButton" name="submit" href="#" type="button" class="btn btn-lg btn-default btn-block">Sign in</button>
+      </form>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>All Rights Reserved </p> 
+  <p id = "ars"> Lloyd Andrea Lois </p>
+</footer>
+
+</body>
+</html>

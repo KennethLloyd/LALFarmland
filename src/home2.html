@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://localhost:3000/external/bootstrap.min.css">
+		<script src="http://localhost:3000/external/jquery.min.js"></script>
+		<script src="http://localhost:3000/external/bootstrap.min.js"></script>
+		<style>
+			#homecontainer{
+				 background-color: #27AE60;
+				 color: #fff;
+				 width: 100%;
+				 height: 100px;
+				 padding: 10px 80px;
+			}
+			
+		</style>
+		
+	</head>
+	<body>
+		<div class="container" id = "homecontainer">
+		<p class = "text-right">
+        <a href="http://localhost:3000/viewProfile">
+          <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+        </a>
+      	</p>
+		<h1>HOME</h1>
+		</div><br>
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu0" data-toggle="dropdown"> SEARCH
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu0">
+				      <li role="presentation"><a href="http://localhost:3000/search">Search Farmer</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/searchPlant">Search Plant</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/searchPlot">Search Plot</a></li>
+				    </ul>
+			  	</div>
+			</div><br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY PLOT
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+				      <li role="presentation"><a href="http://localhost:3000/addPlot">Add Plot</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/editPlot">Edit Plot</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deletePlot">Delete Plot</a></li>
+				    </ul>
+			  	</div>
+			</div><br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY PLANT
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+				      <li role="presentation"><a href="http://localhost:3000/addPlant">Add Plant</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/editPlant">Edit Plant</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deletePlant">Delete Plant</a></li>
+				    </ul>
+				</div>
+			</div> <br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY FARM PERSONNEL
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu3">
+				      <li role="presentation"><a href="http://localhost:3000/addFarmer">Add Farmer</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/editFarmer">Edit Farmer</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deleteFarmer">Delete Farmer</a></li>
+				    </ul>
+				</div>
+
+			</div> <br>
+
+			<div class="container">
+				<div class="dropdown">
+				    <button class="btn btn-lg glyphicon glyphicon-edit dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> MODIFY PLANTING ACTIVITIES
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" role="menu" aria-labelledby="menu4">
+				      <li role="presentation"><a href = "http://localhost:3000/editPlantingActivity">Edit Planting Activity</a></li>
+				      <li role="presentation" class="divider"></li>
+				      <li role="presentation"><a href = "http://localhost:3000/deletePlantingActivity">Delete Planting Activity</a></li>
+				</div>
+			</div> <br><br><br><br>
+
+
+			<div class="btn-group btn-group-justified btn-group-lg">
+				<a href="#" onclick="" class="btn btn-success">View all planting activities</a>
+				<a href="#" onclick="" class="btn btn-danger">View all planting requests</a>
+				<a href="#" onclick="" class="btn btn-warning">Generate report for farm activities</a>
+				<a href="#" onclick="" class="btn btn-primary">Generate report for planting requests</a>
+			</div>
+		</div>
+			
+			
+	</body>
+</html>

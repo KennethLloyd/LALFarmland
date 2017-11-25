@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Restricted Content</title>
+		<script>
+			function showError() {
+				alert("Access Denied. Please log-in as Admin.");
+				window.location.href = 'http://localhost:3000/home';
+			}
+		</script>
+	</head>
+	<body onLoad="showError()">
+	</body>
+</html>

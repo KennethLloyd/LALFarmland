@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="shortcut icon" href="http://localhost:3000/images/LAL.png">
+		<title>Add Farm Personnel</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="http://localhost:3000/external/jquery.min.js"></script>
+	    <script src="http://localhost:3000/external/bootstrap.min.js"></script>
+	    <script src="http://localhost:3000/external/angular.min.js"></script>
+	    <script src="http://localhost:3000/external/angular.min.js"></script>
+		<script>
+			function goToHome() {
+       			window.location.href = 'http://localhost:3000/home';
+      		}
+			$('document').ready(function() {
+			      $('#buttonSign').bind('click',function () {
+			      	var farmer = {
+			      		age: $('#age').val(),
+			      		fname: $('#fname').val(),
+			      		minit: $('#minit').val(),
+			      		lname: $('#lname').val(),
+			      		contact_number: $('#number').val()
+
+			      	};
+			      	jsonString = JSON.stringify(farmer, null, 2);
+			      	$.ajax({
+	                  type: "GET",
+	                  url: "http://localhost:3000/addFarmer/" + jsonString,
+	                  success: function(data) {
+	                    if (data == 'Error') {
+	                      alert('An error has occured.');
+	                    }
+	                    else {
+	                      alert(data);
+	                      goToHome();
+	                    }
+	                  },
+	                  error: function(err) {
+	                    alert(err);
+	                  }
+	                })
+			      })
+			})
+			var myApp = angular.module('myApp', [])
+   
+			myApp.controller('SimpleController', ['$scope', '$http', function($scope, $http) {
+		       $http.get('http://localhost:3000/farmer/search-by-name').then(
+		        function(response) {
+		          //First function handles success
+		          $scope.tasks = response.data
+		          $scope.search = function(str){
+		            $http.get('http://localhost:3000/farmer/search-by-name/'+str).then(
+		              function(response){
+		                $scope.tasks = response.data
+		              }
+		            )
+		          }
+		        },
+		        function(response) {
+		          //Second function handles error
+		          alert('Sorry, Could not find data!')
+		        }
+
+		      )
+		    }])
+		</script>
+		<style>
+			#homecontainer{
+				 background-color: #27AE60;
+				 color: #fff;
+				 width: 100%;
+				 height: 120px;
+         		 padding: 10px 20px;
+			}
+			 #prof{
+	        color: white;
+	        top: 37px;
+	        right: 90px; 
+	        }
+	        .border {
+			    border-right: 3px solid #ddd;
+			} 
+	      
+		</style>
+	</head>
+	<body>
+		<div id = "homecontainer" class="container">
+		    <div class="dropdown pull-right">
+		            <nav id = "prof" class="btn btn-lg glyphicon glyphicon-user dropdown-toggle" type="button" data-toggle="dropdown"> </nav>
+		            <ul class="dropdown-menu" role="menu" aria-labelledby="menu0">
+		              <li role="presentation" ><a href={{url}} ng-click=please(url)>My Profile</a></li>
+		              <li role="presentation" class="divider"></li>
+		              <li role="presentation" ><a href=# ng-click=logout()>Logout</a></li>
+		              
+		            </ul>
+		    </div>
+		    <a href = "http://localhost:3000/home"><img src="http://localhost:3000/images/LAL.png" alt="LAL Farmland" 
+		    align = "left" width="90" height="90"><br></a>
+			<h3>&nbspAdd Farmer</h3>
+		</div><br>
+		<form class = "form-horizontal col-xs-4 border">
+			<label> First Name: <input type="text" id="fname"><br>Middle Initial: <input type="text" id="minit"><br>Last Name: <input type="text" id="lname"></label><br>
+			<label> Contact Number: <input type="tel" name="number" id="number"></label><br>
+			<label> Age: <input type="number" name="age" id="age"></label><br>
+			<button id="buttonSign" name="submit" href="#" type="button" class="btn btn-default">Submit</button>
+		</form>
+		<div ng-app="myApp" ng-controller="SimpleController" class="col-xs-8">
+		<label>&nbsp &nbsp&nbsp&nbspEnter farmer name: </label>
+		<input type="text" ng-model="filterKey" ng-init="filterKey=' '"> <button ng-click="search(filterKey)" class="btn btn-default">Search</button><br><br>
+		<table class="table">
+			<thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Date Hired</th>
+			    <th>Contact Number</th>
+			    <th>Age</th>
+			  </tr>
+			</thead>
+			<tbody ng-repeat = "x in tasks">
+			  <tr>
+			    <td>{{x.fname + " "+ x.lname}}</td>
+			    <td>{{x.datehired | date}}</td>
+			    <td>{{x.contact_number}}</td>
+			    <td>{{ x.age| uppercase}} </td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+	</body>
+</html>

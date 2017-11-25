@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>Planting Activities</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="external/bootstrap.min.css">
+  <script src="http://localhost:3000/external/jquery.min.js"></script>
+  <script src="http://localhost:3000/external/bootstrap.min.js"></script>
+  <script src="http://localhost:3000/external/angular.min.js"></script>
+  <script>
+    //Put your scripts here
+    var myApp = angular.module('myApp', [])
+   
+  myApp.controller('SimpleController', ['$scope', '$http', function($scope, $http) {
+      $scope.activities = ""
+       $http.get('http://localhost:3000/viewActivities/data').then(
+        function(response) {
+          //First function handles success
+          $scope.activities = response.data
+          //console.log($scope.activities);
+
+          
+          $scope.search = function(dates,datee){
+            var date = {
+              start: getTheDate(dates),
+              end: getTheDate(datee)
+            };
+            //console.log(date);
+            jsonString = JSON.stringify(date, null, 2);
+            $http.get('http://localhost:3000/viewActivities/data/'+jsonString).then(
+              function(response){
+                $scope.activities = response.data
+                console.log(response.data)
+              }
+            )
+          }
+        },
+        function(response) {
+          //Second function handles error
+          alert('Sorry, Could not find data!')
+        }
+
+      )
+    }])
+    function getTheDate (date){
+
+      var dd=date.getDate();
+      var mm=date.getMonth();
+      mm++;
+      var yy=date.getFullYear();
+      var formatted = yy.toString()+"-"+mm.toString()+"-"+dd.toString();
+      return formatted;
+    }
+
+  </script>
+  <style>
+      #homecontainer{
+         background-color: #27AE60;
+         color: #fff;
+         width: 100%;
+          height: 120px;
+         padding: 10px 20px;
+      }
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="SimpleController">
+    <div id = "homecontainer" class="container">
+      <a href = "http://localhost:3000/home"><img src="http://localhost:3000/images/LAL.png" alt="LAL Farmland" 
+        align = "left" width="90" height="90"><br></a>
+      <h3>View Planting Activities</h3>
+    </div><br>
+    <form class = "form-horizontal col-xs-6">
+      <label>From: <input type="date" name="datestart" id="datestart" ng-model="datestart"></label>
+      <label>To: <input type="date"  name="dateend" id="dateend" ng-model="dateend"></label>
+      <br>
+      <button id="buttonSign" name="submit" href="#" type="button" ng-click="search(datestart,dateend)" class="btn btn-default">Submit</button>
+    </form>
+    <div>
+      <table class="table">
+      <thead>
+        <tr>
+          <th>Activity Number</th>
+          <th>Quantity</th>
+          <th>Plant Name</th>
+          <th>Plant Start</th>
+          <th>Plant End</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat = "x in activities">
+        <tr>
+          <td>{{x.activitynumber}}</td>
+           <td>{{x.quantity}}</td>
+          <td>{{x.plantname}}</td>
+          <td>{{x.plant_start | date}}</td>
+          <td>{{x.plant_end | date}}</td>
+        </tr>
+      </tbody>
+    </div>
+</body>
+</html>

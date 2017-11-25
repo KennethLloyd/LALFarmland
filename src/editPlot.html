@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="shortcut icon" href="http://localhost:3000/images/LAL.png">
+		<title>Edit Plot</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="external/bootstrap.min.css">
+		<script src="http://localhost:3000/external/jquery.min.js"></script>
+		<script src="http://localhost:3000/external/bootstrap.min.js"></script>
+		<script src="http://localhost:3000/external/angular.min.js"></script>
+		<script>
+			function goToHome() {
+       			window.location.href = 'http://localhost:3000/home';
+      		}	
+			$('document').ready(function(){
+			    $('#buttonSign').bind('click',function () {
+			      	var plot = {
+			      		plotnumber: $('#number').val(),
+			      		attribute: $('#combo').val(),
+			      		attributeVal: $('#newVal').val()
+			      	};
+			      	jsonString = JSON.stringify(plot, null, 2);
+			      	$.ajax({
+	                  type: "GET",
+	                  url: "http://localhost:3000/editPlot/" + jsonString,
+	                  success: function(data) {
+	                    if (data == 'Error') {
+	                      alert('An error has occured.');
+	                    }
+	                    else {
+	                      alert(data);
+	                      goToHome();
+	                    }
+	                  },
+	                  error: function(err) {
+	                    alert(err);
+	                  }
+	                })
+			     })
+			})
+			var myApp = angular.module('myApp', [])
+   
+			  myApp.controller('SimpleController', ['$scope', '$http', function($scope, $http) {
+			       $http.get('http://localhost:3000/plot/search-by-number').then(
+			        function(response) {
+			          //First function handles success
+			          $scope.tasks = response.data
+			          $scope.search = function(str){
+			          	$http.get('http://localhost:3000/plot/search-by-number/'+str).then(
+			          		function(response){
+			          			$scope.tasks = response.data
+			          		}
+			          	)
+			          }
+			        },
+			        function(response) {
+			          //Second function handles error
+			          alert('Sorry, Could not find data!')
+			        }
+
+			      )
+			    }])
+		</script>
+		<style>
+			#homecontainer{
+				 background-color: #27AE60;
+				 color: #fff;
+				 width: 100%;
+							 height: 120px;
+         		 padding: 10px 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container" id = "homecontainer">
+			 <a href = "http://localhost:3000/home"><img src="http://localhost:3000/images/LAL.png" alt="LAL Farmland" 
+        align = "left" width="90" height="90"><br></a>
+			<h3>&nbspEdit Plot</h3>
+		</div><br>
+		<form class = "form-horizontal col-xs-3">
+			<label> Enter plot number: <input type="text" name="number" id="number"></label><br>
+			<label> Select the attribute you want to edit: </label><br>
+			<select id="combo" class="combobox" name="dept" style="width:200px;">
+				<option>Size</option>
+				<option>Date Occupied</option>
+			</select>
+			<label> New value: <input type="text" name="newVal" id="newVal"></label>
+			<br>
+			<button id="buttonSign" name="submit" href="#" type="button"  class="btn btn-default">Submit</button>
+		</form>
+		<div ng-app="myApp" ng-controller="SimpleController" class="col-xs-9">
+	      <label>&nbspEnter plot name: </label>
+	      <input type="text" ng-model="filterKey" ng-init="filterKey=''"> <button ng-click="search(filterKey)">Search</button><br><br>
+	      <table class="table">
+	      <thead>
+	        <tr>
+	          <th>Plot number</th>
+	          <th>Size</th>
+	          <th>Available space</th>
+	          <th>Date added</th>
+	          <th>Date occupied</th>
+	        </tr>
+	      </thead>
+	      <tbody ng-repeat = "x in tasks">
+	        <tr>
+	          <td>{{x.plotnumber}}</td>
+	          <td>{{x.size }}</td>
+	          <td>{{x.availablespace}}</td>
+	          <td>{{x.date_added | date}}</td>
+	          <td>{{x.date_occupied | date}}</td>
+	        </tr>
+		</div>
+	</body>
+</html>
